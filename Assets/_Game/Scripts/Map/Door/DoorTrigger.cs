@@ -3,7 +3,7 @@ using UnityEngine;
 public class DoorTrigger : MonoBehaviour, IInteracable
 {
     public Door door;
-    public int requiredKeys = 1;
+    public int requiredKeys = 0;
     private bool isOpened = false;
 
     [Header("messeger")]
@@ -44,6 +44,5 @@ public class DoorTrigger : MonoBehaviour, IInteracable
         message = "The door is opened!";
         isOpened = true;
         door.Open(playerPos);
-
     }
 }

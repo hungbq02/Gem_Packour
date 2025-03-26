@@ -54,7 +54,6 @@ public class EnemyController : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.Execute(this);
-        Debug.Log(currentState);
     }
 
     public void Moving()

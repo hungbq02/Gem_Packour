@@ -27,12 +27,12 @@ public class Grounded : BaseState
         velocity = Vector3.zero;
         gravityVelocity.y = 0.0f;
 
-        playerSpeed = sm.speed;
         // isGrounded = playerController.IsGrounded();
         isGrounded = playerController.Controller.isGrounded;
         gravityValue = playerController.gravityValue;
         playerController.Animator.SetTrigger("Ground");
         playerController.Animator.SetBool("OnGround", true);
+
     }
 
     public override void Exit()
@@ -43,6 +43,8 @@ public class Grounded : BaseState
     public override void HandleInput()
     {
         base.HandleInput();
+        //x speed anim
+        playerController.Animator.SetFloat("SpeedMultiplier", sm.speed / playerController.DefaultSpeed);
 
         velocity = new Vector3(playerController.Input.move.x, 0.0f, playerController.Input.move.y);
 
@@ -63,6 +65,7 @@ public class Grounded : BaseState
 
     public override void UpdateLogic()
     {
+        playerSpeed = sm.speed;
         climb = playerController.CanClimb();
         base.UpdateLogic();
         if (jump)

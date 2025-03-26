@@ -19,7 +19,7 @@ public class PlayerInputHandler : MonoBehaviour
     public UIVirtualTouchZone touchZone;
     private void Update()
     {
-        if (useKeyboardInput)
+        if (!useKeyboardInput)
         {
             move = joystick.Coordinate();
             look = touchZone.TouchDist;

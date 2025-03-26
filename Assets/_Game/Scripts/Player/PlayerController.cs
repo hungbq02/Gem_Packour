@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -45,9 +46,13 @@ public class PlayerController : MonoBehaviour
 
     [Header("Checkpoint")]
     private Vector3 respawnPosition;
-
-
-
+    [Header("PowerUp")]
+    private float defaultSpeed;
+    private float defaultJumpHeight;
+    private bool isTransformed = false;
+    public bool IsTransformed { get => isTransformed; }
+    public float DefaultSpeed { get => defaultSpeed; }
+    public float DefaultJumpHeight { get => defaultJumpHeight; }
     public PlayerInputHandler Input { get => input; }
     public Animator Animator { get => animator; }
     public CharacterController Controller { get => controller; }
@@ -65,6 +70,9 @@ public class PlayerController : MonoBehaviour
     {
         respawnPosition = transform.position;
         gravityValue *= gravityMultiplier;
+
+        defaultSpeed = movementSM.speed;
+        defaultJumpHeight = movementSM.jumpHeight;
         //   transform.transform.position = new Vector3(0, 0.5f, -5.11f);
         // Boss Vector3(-102.400475,-12.3784752,-186.520325)
 
@@ -135,6 +143,7 @@ public class PlayerController : MonoBehaviour
         controller.enabled = true;
         animator.enabled = true;
     }
+    // LOSE
     public void ApplyRandomForce()
     {
         foreach (Rigidbody rb in rbs)
@@ -146,27 +155,51 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*    public bool IsGrounded()
+    // POWER UP
+    public void ApplySpeedBoost(float multiplier)
+    {
+        movementSM.speed *= multiplier;
+        animator.SetFloat("SpeedMultiplier", multiplier);
+    }
+
+    public void ApplyJumpBoost(float multiplier)
+    {
+        movementSM.jumpHeight *= multiplier;
+    }
+
+    public void TransformPlayer(bool transform, float value)
+    {
+        if (transform)
         {
-            // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
-                transform.position.z);
-            return Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
-                QueryTriggerInteraction.Ignore);
-        }*/
-
-    /*    private void OnDrawGizmosSelected()
+            Debug.Log("Transformed");
+            if (!isTransformed)
+            {
+                this.transform.localScale *= value;
+                isTransformed = true;
+            }
+        }
+        else
         {
-            Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-            Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
+            if (isTransformed)
+            {
+                this.transform.localScale /= value;
+                isTransformed = false;
+            }
+        }
+    }
+    public void ResetPowerUps()
+    {
+        ResetSpeed();
+        ResetJump();
+        TransformPlayer(false, 1f);
+    }
+    public void ResetSpeed()
+    {
+        movementSM.speed = defaultSpeed;
+    }
 
-            if (IsGrounded()) Gizmos.color = transparentGreen;
-            else Gizmos.color = transparentRed;
-
-            // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-            Gizmos.DrawSphere(
-                new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
-                GroundedRadius);
-        }*/
-
+    public void ResetJump()
+    {
+        movementSM.jumpHeight = defaultJumpHeight;
+    }
 }

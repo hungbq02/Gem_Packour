@@ -25,7 +25,6 @@ public class JumpState : BaseState
         base.Enter();
         isGrounded = false;
         gravityValue = playerController.gravityValue;
-        jumpHeight = sm.jumpHeight;
         playerSpeed = sm.speed;
         gravityVelocity.y = 0.0f;
 
@@ -37,6 +36,8 @@ public class JumpState : BaseState
 
     public override void UpdateLogic()
     {
+        jumpHeight = sm.jumpHeight;
+
         base.UpdateLogic();
         if (isGrounded)
         {

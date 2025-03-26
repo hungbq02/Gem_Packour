@@ -9,7 +9,6 @@ TagManager:
   - Ground_Metal
   - Kill
   - effect
-  - Ground
   layers:
   - Default
   - TransparentFX

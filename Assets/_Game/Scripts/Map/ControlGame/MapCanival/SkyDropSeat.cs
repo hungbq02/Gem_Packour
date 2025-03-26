@@ -5,6 +5,8 @@ using UnityEngine;
 public class SkyDropSeat : MonoBehaviour
 {
     [SerializeField] private Transform seatPos;
+    [SerializeField] private Transform exitPos;
+
     private PlayerController playerController;
     private Rigidbody rb;
 
@@ -32,6 +34,14 @@ public class SkyDropSeat : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         rb.isKinematic = false;
+        yield return new WaitForSeconds(5f);
+        playerController.transform.position = exitPos.position;
+        playerController.transform.rotation = exitPos.rotation;
+        playerController.transform.SetParent(null);
 
+        playerController.Controller.enabled = true;
+        playerController.Input.enabled = true;
+        playerController.Animator.ResetTrigger("sit");
+        playerController.Animator.SetTrigger("Ground");
     }
 }

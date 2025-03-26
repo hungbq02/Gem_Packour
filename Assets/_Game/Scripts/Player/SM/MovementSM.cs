@@ -18,6 +18,7 @@ public class MovementSM : StateMachine
     public float jumpHeight = 10f;
     public float speed = 5f;
 
+
     public float airControl = 1f; //control in air
 
     [HideInInspector] public Vector3 playerVelocity;
